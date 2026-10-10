@@ -113,7 +113,7 @@ const MAX_NAME_LENGTH = 60;
 const VALID_KINDS = new Set<string>(["consumable", "reusable"]);
 
 const SETTING_DEFAULTS: Record<string, string> = {
-  system_name: "6dchair's CIMS (Hi! This is ur system name, u can change it in MENU",
+  system_name: "6dchair's CIMS (Hi! This is ur system name, u can change it in MENU ->)",
   admin_name: "",
   accent_color: "#1f47c8",
 };
