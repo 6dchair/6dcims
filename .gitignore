@@ -1,0 +1,20 @@
+# Environment files (keep the example)
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Local data: never publish
+warehouse.db
+*.db
+uploads/
+
+# Android build output (if you use Capacitor)
+android/.gradle/
+android/app/build/
+android/local.properties
