@@ -1,0 +1,1016 @@
+/* ==================================================
+   RETRO LCD THEME
+   Inspired by a monochrome handheld/appliance menu:
+   dot-matrix text, black on pale LCD, inverted
+   selection, dashed titles, key hints, pixel icons.
+
+   Import AFTER App.css:   import "./retro.css";
+   Everything is driven by the variables below.
+================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+
+:root {
+  --lcd: #dfe4d0;        /* screen background */
+  --lcd-panel: #e8ecdb;  /* raised panels */
+  --lcd-dim: #cfd5bd;    /* hover / alt rows */
+  --pixel: #12150d;      /* "ink": text, borders, inverted fills */
+  --pixel-soft: #4b5240; /* secondary text */
+
+  /* Re-map the variables App.css already uses */
+  --bg: var(--lcd);
+  --surface: var(--lcd-panel);
+  --surface-alt: var(--lcd-dim);
+  --border: var(--pixel);
+  --border-strong: var(--pixel);
+  --text: var(--pixel);
+  --text-2: var(--pixel);
+  --muted: var(--pixel-soft);
+  --faint: #7a8268;
+  --ink: var(--pixel);
+  --ink-hover: #2a3020;
+  --accent: var(--pixel);
+  --accent-tint: var(--lcd-dim);
+  --brand: var(--pixel);
+  --good: var(--pixel);
+  --good-bg: var(--lcd-panel);
+  --warn: var(--pixel);
+  --warn-bg: var(--lcd-panel);
+  --bad: var(--lcd-panel);
+  --bad-bg: var(--pixel);
+  --radius: 0;
+  --radius-lg: 0;
+  --shadow-pop: 4px 4px 0 var(--pixel);
+}
+
+/* ---------- base ---------- */
+
+body {
+  font-family: "VT323", "Courier New", ui-monospace, monospace;
+  font-size: 20px;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pixel);
+  background: var(--lcd);
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+/* typed data keeps its case so names and notes stay readable */
+input,
+textarea,
+.remark,
+.proof-item a {
+  text-transform: none;
+}
+
+::selection {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+/* ---------- top bar ---------- */
+
+.topbar {
+  height: auto;
+  min-height: 84px;
+  padding: 12px 24px;
+  color: var(--pixel);
+  background: var(--lcd);
+  border-bottom: 3px solid var(--pixel);
+}
+
+.topbar h1 {
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+/* pixel "document" icon, like the one in the menu screen */
+.topbar h1::before {
+  width: 22px;
+  height: 28px;
+  border-radius: 0;
+  background:
+    linear-gradient(var(--pixel), var(--pixel)) 4px 7px / 10px 2px no-repeat,
+    linear-gradient(var(--pixel), var(--pixel)) 4px 13px / 14px 2px no-repeat,
+    linear-gradient(var(--pixel), var(--pixel)) 4px 19px / 10px 2px no-repeat,
+    var(--lcd);
+  border: 3px solid var(--pixel);
+}
+
+.topbar p {
+  margin-left: 36px;
+  font-size: 18px;
+  color: var(--pixel-soft);
+}
+
+.topbar-actions > button,
+.menu-wrap > button {
+  min-height: 40px;
+  font-size: 22px;
+  color: var(--pixel);
+  border: 2px solid var(--pixel);
+}
+
+.topbar-actions > button:hover,
+.menu-wrap > button:hover,
+.menu-wrap > button[aria-expanded="true"] {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+.badge {
+  margin-left: 8px;
+  padding: 0 6px;
+  font-size: 20px;
+  color: var(--pixel);
+  background: transparent;
+  border: 2px solid var(--pixel);
+  border-radius: 0;
+}
+
+.badge.has-alerts {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+/* the top-right menu reads like the screenshot's menu list */
+.top-menu {
+  width: 230px;
+  padding: 0;
+  border: 3px solid var(--pixel);
+  border-radius: 0;
+  background: var(--lcd);
+}
+
+.top-menu::before {
+  content: "-- MENU --";
+  display: block;
+  padding: 4px 10px;
+  text-align: center;
+  border-bottom: 2px solid var(--pixel);
+}
+
+.top-menu button {
+  padding: 4px 12px;
+  font-size: 22px;
+  border-radius: 0;
+  color: var(--pixel);
+}
+
+.top-menu button:hover,
+.top-menu button:focus-visible {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+/* ---------- sidebar = menu list with inverted selection ---------- */
+
+.sidebar {
+  width: 240px;
+  padding: 20px 0;
+  background: var(--lcd);
+  border-right: 3px solid var(--pixel);
+}
+
+.sidebar::before {
+  content: "-------- MENU --------";
+  display: block;
+  margin: 0 0 10px;
+  padding: 0 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--pixel);
+}
+
+.sidebar .nav-item {
+  padding: 3px 14px 3px 30px;
+  font-size: 24px;
+  border-radius: 0;
+  color: var(--pixel);
+}
+
+.sidebar .nav-item:hover {
+  background: var(--lcd-dim);
+}
+
+.sidebar .nav-item.active,
+.sidebar .nav-item.active:hover {
+  color: var(--lcd);
+  background: var(--pixel);
+  font-weight: 400;
+}
+
+.sidebar .nav-item.active::before {
+  content: "\25B6";
+  position: absolute;
+  left: 9px;
+  top: 3px;
+  bottom: auto;
+  width: auto;
+  font-size: 14px;
+  line-height: 2.4;
+  background: none;
+}
+
+.nav-alert-count {
+  min-width: 0;
+  padding: 0 6px;
+  font-size: 20px;
+  line-height: 1.2;
+  color: inherit;
+  background: transparent;
+  border: 2px solid currentColor;
+  border-radius: 0;
+}
+
+/* ---------- content, headings ---------- */
+
+.app main.content {
+  padding: 28px 28px;
+}
+
+.page-heading {
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--pixel);
+}
+
+.page-heading h2 {
+  font-size: 36px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+/* "-------- TITLE --------" */
+.page-heading h2::before,
+.page-heading h2::after {
+  content: "-------- ";
+  letter-spacing: 0;
+  color: var(--pixel-soft);
+}
+
+.page-heading h2::after {
+  content: " --------";
+}
+
+.page-heading p {
+  color: var(--pixel-soft);
+}
+
+/* ---------- sections ---------- */
+
+.section,
+.form-panel,
+.stat-card,
+.alert,
+.empty-state,
+.content > .empty {
+  background: var(--lcd-panel);
+  border: 3px solid var(--pixel);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.section-header,
+.form-header {
+  padding: 10px 16px;
+  background: var(--lcd);
+  border-bottom: 3px solid var(--pixel);
+}
+
+.section-header h2,
+.form-header h3 {
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.form-header h3::before {
+  content: "-- ";
+}
+
+.form-header h3::after {
+  content: " --";
+}
+
+.form-header p {
+  font-size: 18px;
+  color: var(--pixel-soft);
+}
+
+.count {
+  padding: 0 8px;
+  font-size: 18px;
+  color: var(--pixel);
+  background: transparent;
+  border: 2px solid var(--pixel);
+  border-radius: 0;
+}
+
+/* ---------- buttons ---------- */
+
+button,
+.secondary-button,
+.primary-button {
+  min-height: 38px;
+  padding: 4px 14px;
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--pixel);
+  background: var(--lcd-panel);
+  border: 2px solid var(--pixel);
+  border-radius: 0;
+  box-shadow: 3px 3px 0 var(--pixel);
+  transition: none;
+}
+
+button:hover,
+.secondary-button:hover {
+  color: var(--lcd);
+  background: var(--pixel);
+  border-color: var(--pixel);
+}
+
+button:active,
+.secondary-button:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+button:focus-visible,
+.secondary-button:focus-within,
+a:focus-visible {
+  outline: 3px dashed var(--pixel);
+  outline-offset: 3px;
+}
+
+/* the main action is the inverted "selected" item */
+.primary-button {
+  color: var(--lcd);
+  background: var(--pixel);
+  font-weight: 400;
+}
+
+.primary-button:hover {
+  color: var(--pixel);
+  background: var(--lcd-panel);
+  border-color: var(--pixel);
+}
+
+.secondary-button.danger {
+  color: var(--pixel);
+  border-style: dashed;
+}
+
+.secondary-button.danger:hover {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+.primary-button.danger-button,
+.primary-button.danger-button:hover {
+  color: var(--lcd);
+  background: var(--pixel);
+  border: 2px dashed var(--lcd);
+  outline: 2px solid var(--pixel);
+}
+
+/* flat, unboxed buttons */
+.close-button,
+.kebab-button,
+.remove-proof,
+.footer-edit,
+.text-link,
+.toast .toast-close {
+  box-shadow: none;
+  background: transparent;
+}
+
+.close-button {
+  width: 34px;
+  min-height: 34px;
+  border: 2px solid var(--pixel);
+  color: var(--pixel);
+}
+
+.close-button:hover {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+.kebab-button {
+  border: 0;
+  color: var(--pixel);
+}
+
+.kebab-button:hover {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+.footer-edit,
+.text-link {
+  border: 0;
+  color: var(--pixel);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.footer-edit:hover,
+.text-link:hover {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+.add-proof {
+  color: var(--pixel);
+  background: var(--lcd-panel);
+  border: 2px solid var(--pixel);
+  box-shadow: 2px 2px 0 var(--pixel);
+}
+
+.add-proof:hover {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+.remove-proof {
+  border: 0;
+  color: var(--pixel);
+}
+
+.remove-proof:hover {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+/* ---------- stat cards ---------- */
+
+.stat-card {
+  padding: 14px 16px;
+}
+
+.stat-card span {
+  font-size: 20px;
+  color: var(--pixel-soft);
+}
+
+.stat-card strong {
+  font-size: 46px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.stat-card strong.stat-small {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.stat-card.warn,
+.stat-card.danger {
+  background: var(--lcd-panel);
+}
+
+.stat-card.warn {
+  border-style: dashed;
+}
+
+.stat-card.warn strong,
+.stat-card.danger strong {
+  color: var(--pixel);
+}
+
+.stat-card.danger {
+  background: var(--pixel);
+  color: var(--lcd);
+}
+
+.stat-card.danger span,
+.stat-card.danger strong {
+  color: var(--lcd);
+}
+
+/* ---------- tables ---------- */
+
+.data-table {
+  font-variant-numeric: normal;
+}
+
+.data-table th {
+  padding: 8px 12px;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--pixel);
+  background: var(--lcd);
+  border-bottom: 3px solid var(--pixel);
+}
+
+.data-table td {
+  padding: 8px 12px;
+  border-bottom: 2px dotted var(--pixel-soft);
+}
+
+.data-table tbody tr:hover {
+  background: var(--lcd-dim);
+}
+
+/* selected row = inverted, like the menu highlight */
+.data-table tbody tr.row-selected,
+.data-table tbody tr.row-selected:hover {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+.data-table tbody tr.row-selected .kebab-button {
+  color: var(--lcd);
+}
+
+.id-cell {
+  color: var(--pixel-soft);
+}
+
+.check-cell input[type="checkbox"],
+.column-row input[type="checkbox"],
+.confirm-row input {
+  accent-color: var(--pixel);
+  border-radius: 0;
+}
+
+.data-table tbody tr.return-row,
+.data-table tbody tr.return-row:hover,
+.data-table tbody tr.edit-row,
+.data-table tbody tr.edit-row:hover {
+  background: var(--lcd-dim);
+}
+
+.bulk-bar {
+  background: var(--pixel);
+  color: var(--lcd);
+  border: 3px solid var(--pixel);
+  border-radius: 0;
+}
+
+.bulk-bar button {
+  color: var(--pixel);
+}
+
+/* ---------- status pills: shape, not colour ---------- */
+
+.status {
+  padding: 0 8px;
+  font-size: 19px;
+  font-weight: 400;
+  border-radius: 0;
+  border: 2px solid var(--pixel);
+}
+
+.status::before {
+  content: none;
+}
+
+.status.good::before {
+  content: "\25CF  ";
+}
+
+.status.good {
+  color: var(--pixel);
+  background: transparent;
+}
+
+.status.good::before,
+.status.warning::before {
+  display: inline;
+  width: auto;
+  height: auto;
+  background: none;
+  border-radius: 0;
+  font-size: 12px;
+}
+
+.status.warning {
+  color: var(--pixel);
+  background: transparent;
+  border-style: dashed;
+}
+
+.status.warning::before {
+  content: "\25B2  ";
+}
+
+.status.danger {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+.status.danger::before {
+  content: "\25A0  ";
+  display: inline;
+  width: auto;
+  height: auto;
+  background: none;
+  font-size: 12px;
+}
+
+.status.consumed {
+  color: var(--pixel-soft);
+  background: transparent;
+  border-color: var(--pixel-soft);
+}
+
+/* ---------- forms ---------- */
+
+.form-grid label,
+.modal-body label,
+.inline-edit-form label,
+.inline-return-form label {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--pixel);
+}
+
+input,
+select,
+textarea {
+  min-height: 38px;
+  padding: 4px 10px;
+  font-size: 22px;
+  color: var(--pixel);
+  background: var(--lcd);
+  border: 2px solid var(--pixel);
+  border-radius: 0;
+}
+
+input::placeholder {
+  color: var(--faint);
+  text-transform: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 0;
+  border-color: var(--pixel);
+  background: #f2f5e6;
+  box-shadow: 3px 3px 0 var(--pixel);
+}
+
+input:disabled,
+select:disabled {
+  color: var(--faint);
+  background: var(--lcd-dim);
+  border-style: dashed;
+}
+
+.form-info {
+  background: var(--lcd);
+  border: 2px dashed var(--pixel);
+  border-radius: 0;
+}
+
+.form-error,
+.form-panel .form-error,
+.modal-body .form-error {
+  color: var(--lcd);
+  background: var(--pixel);
+  border: 2px solid var(--pixel);
+  border-radius: 0;
+  font-weight: 400;
+}
+
+.form-error::before {
+  content: "! ";
+}
+
+.form-actions {
+  background: var(--lcd);
+  border-top: 3px solid var(--pixel);
+}
+
+.edit-note,
+.modal-help {
+  font-size: 18px;
+  color: var(--pixel-soft);
+}
+
+/* ---------- misc panels ---------- */
+
+.column-row {
+  border-bottom: 2px dotted var(--pixel-soft);
+}
+
+.column-row .tag {
+  font-size: 18px;
+}
+
+.swatch {
+  border-radius: 0;
+  border: 2px solid var(--pixel);
+  box-shadow: none;
+}
+
+.swatch.selected {
+  box-shadow: 0 0 0 3px var(--lcd), 0 0 0 5px var(--pixel);
+}
+
+.preview-media {
+  border: 3px solid var(--pixel);
+  border-radius: 0;
+}
+
+.proof-item a {
+  color: var(--pixel);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.proof-item a:hover {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+/* ---------- alerts + feeds ---------- */
+
+.alert {
+  padding: 10px 14px;
+}
+
+.alert-icon,
+.feed-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 0;
+  background: var(--pixel);
+}
+
+.alert.critical {
+  color: var(--lcd);
+  background: var(--pixel);
+}
+
+.alert.critical p,
+.alert.critical strong {
+  color: var(--lcd);
+}
+
+.alert.critical .alert-icon {
+  background: var(--lcd);
+}
+
+.alert.warning {
+  border-style: dashed;
+}
+
+.alert.warning .alert-icon,
+.feed-item.warning .feed-dot {
+  background: transparent;
+  border: 2px solid var(--pixel);
+}
+
+.alert strong {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.feed-item {
+  padding: 8px 16px;
+  border-bottom: 2px dotted var(--pixel-soft);
+}
+
+.feed-item.critical .feed-dot {
+  background: var(--pixel);
+}
+
+.feed-tag {
+  font-size: 20px;
+  color: var(--pixel);
+}
+
+.feed-tag::before {
+  content: "[";
+}
+
+.feed-tag::after {
+  content: "]";
+}
+
+.feed-time {
+  font-size: 18px;
+  color: var(--pixel-soft);
+}
+
+.empty {
+  color: var(--pixel-soft);
+}
+
+.empty::before {
+  content: "- ";
+}
+
+.empty::after {
+  content: " -";
+}
+
+.empty-state h3 {
+  font-size: 28px;
+  font-weight: 400;
+}
+
+/* ---------- modals, confirm, toasts ---------- */
+
+.modal-backdrop {
+  background: rgba(18, 21, 13, 0.55);
+}
+
+.modal {
+  background: var(--lcd);
+  border: 3px solid var(--pixel);
+  border-radius: 0;
+  box-shadow: 6px 6px 0 var(--pixel);
+}
+
+.confirm-body h3 {
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.confirm-icon,
+.confirm-icon.danger {
+  width: 40px;
+  height: 40px;
+  font-size: 28px;
+  color: var(--lcd);
+  background: var(--pixel);
+  border-radius: 0;
+}
+
+.confirm-list {
+  font-size: 20px;
+  background: var(--lcd-panel);
+  border: 2px dashed var(--pixel);
+  border-radius: 0;
+}
+
+.toast {
+  color: var(--lcd);
+  background: var(--pixel);
+  border: 2px solid var(--lcd);
+  outline: 3px solid var(--pixel);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.toast-dot,
+.toast.error .toast-dot,
+.toast.info .toast-dot {
+  border-radius: 0;
+  background: var(--lcd);
+}
+
+.toast.error .toast-text::before {
+  content: "! ";
+}
+
+.toast .toast-close {
+  color: var(--lcd);
+  border: 0;
+}
+
+.toast .toast-close:hover {
+  color: var(--pixel);
+  background: var(--lcd);
+}
+
+/* ---------- footer = key-hint lines ---------- */
+
+.footer {
+  padding: 12px 24px;
+  font-size: 20px;
+  color: var(--pixel);
+  background: var(--lcd);
+  border-top: 3px solid var(--pixel);
+}
+
+.footer-admin,
+.footer-admin strong {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.footer-grid > :nth-child(2) {
+  color: var(--pixel-soft);
+}
+
+/* "UP/DOWN KEY / SET : ACTION KEY" from the screenshot */
+.footer-grid > :last-child {
+  justify-self: end;
+  text-align: right;
+  line-height: 1.1;
+}
+
+.footer-grid > :last-child::before {
+  content: "UP/DOWN \25BC KEY\A SET : ACTION KEY";
+  white-space: pre;
+}
+
+/* ---------- loading ---------- */
+
+.loading {
+  font-size: 28px;
+  color: var(--pixel);
+}
+
+.loading::after {
+  content: "_";
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+  .sidebar {
+    padding: 0;
+    border-right: 0;
+    border-bottom: 3px solid var(--pixel);
+  }
+
+  .sidebar::before {
+    display: none;
+  }
+
+  .sidebar .nav-item {
+    padding: 6px 14px;
+  }
+
+  .sidebar .nav-item.active::before {
+    display: none;
+  }
+
+  .sidebar .nav-item.active {
+    box-shadow: none;
+  }
+
+  .topbar {
+    min-height: 70px;
+    padding: 8px 14px;
+  }
+
+  .topbar h1 {
+    font-size: 26px;
+  }
+
+  .topbar h1::before {
+    width: 16px;
+    height: 22px;
+    background-size: 6px 2px, 8px 2px, 6px 2px;
+  }
+
+  .topbar p {
+    margin-left: 30px;
+    font-size: 16px;
+  }
+
+  .page-heading h2 {
+    font-size: 28px;
+  }
+
+  .page-heading h2::before,
+  .page-heading h2::after {
+    content: "-- ";
+  }
+
+  .page-heading h2::after {
+    content: " --";
+  }
+
+  .footer-grid > :last-child::before {
+    font-size: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading::after {
+    animation: none;
+  }
+
+  button:active,
+  .secondary-button:active {
+    transform: none;
+  }
+}

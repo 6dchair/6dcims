@@ -15,6 +15,7 @@ import {
 } from "./localApi";
 import { LOCAL_MODE } from "./mode";
 import "./App.css";
+import "./retro.css";
 
 /* --------------------------------------------------
    CONFIG & HELPERS
